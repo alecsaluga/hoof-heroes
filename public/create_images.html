@@ -1,0 +1,33 @@
+<\!DOCTYPE html>
+<html><head><title>Generate Images</title></head><body>
+<canvas id="og" width="1200" height="630" style="border:1px solid #ccc;"></canvas>
+<canvas id="favicon" width="32" height="32" style="border:1px solid #ccc;"></canvas>
+<script>
+// OG Image
+const ogCanvas = document.getElementById('og');
+const ogCtx = ogCanvas.getContext('2d');
+ogCtx.fillStyle = '#FFF7ED';
+ogCtx.fillRect(0, 0, 1200, 630);
+ogCtx.fillStyle = '#D97706';
+ogCtx.font = 'bold 72px Arial';
+ogCtx.textAlign = 'center';
+ogCtx.fillText('Hoof Heroes', 600, 280);
+ogCtx.font = '48px Arial';
+ogCtx.fillStyle = '#92400E';
+ogCtx.fillText('Professional Goat Hoof Trimming', 600, 350);
+ogCtx.font = '36px Arial';
+ogCtx.fillText('Get Your Free Quote Today', 600, 420);
+
+// Favicon
+const favCanvas = document.getElementById('favicon');
+const favCtx = favCanvas.getContext('2d');
+favCtx.fillStyle = '#D97706';
+favCtx.fillRect(0, 0, 32, 32);
+favCtx.fillStyle = '#FFFFFF';
+favCtx.font = 'bold 20px Arial';
+favCtx.textAlign = 'center';
+favCtx.fillText('HH', 16, 22);
+
+console.log('Images created - save manually from browser');
+</script></body></html>
+EOF < /dev/null

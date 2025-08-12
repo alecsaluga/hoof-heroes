@@ -1,103 +1,173 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import MultiStepForm from '@/components/MultiStepForm';
+import Header from '@/components/Header';
+import CookieConsent from '@/components/CookieConsent';
+import AnalyticsDebugger from '@/components/AnalyticsDebugger';
+import { siteContent } from '@/lib/content';
+import { trackCTAClick } from '@/lib/analytics';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [showForm, setShowForm] = useState(false);
+  
+  // Initialize comprehensive analytics tracking
+  useAnalytics();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main role="main">
+      {/* Hero Section */}
+      <header className="relative bg-gradient-to-br from-cream via-background to-orange-50 pt-32 pb-20 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight">
+            <span className="text-gradient">Professional Goat</span><br />
+            Hoof Trimming Services
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            {siteContent.hero.subtitle}
+          </p>
+          <button
+            id="get-quote-btn"
+            onClick={() => {
+              trackCTAClick('Get Free Quote', 'Hero Section');
+              setShowForm(true);
+            }}
+            className="btn-primary text-lg px-8 py-4 mb-8"
+            aria-label="Open quote request form for professional goat hoof trimming"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {siteContent.hero.cta}
+          </button>
+          
+          {/* Trust Signals */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+            {siteContent.trustSignals.map((signal, index) => (
+              <div key={index} className="text-center p-4 bg-white/50 rounded-lg">
+                <div className="font-semibold text-primary">{signal}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </header>
+
+      {/* Benefits Section */}
+      <section id="services" className="py-20 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">
+            Why Choose Professional Goat Hoof Trimming?
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {siteContent.benefits.map((benefit, index) => (
+              <div key={index} className="text-center p-6 rounded-lg bg-cream/30 hover:bg-cream/50 transition-colors">
+                <div className="text-4xl mb-4">{benefit.icon}</div>
+                <h3 className="text-xl font-bold text-gray-800 mb-3">{benefit.title}</h3>
+                <p className="text-gray-600">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Service Areas */}
+      <section className="py-20 px-4 bg-gradient-to-r from-primary/5 to-secondary/5">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8">Service Areas</h2>
+          <div className="grid md:grid-cols-3 gap-4">
+            {siteContent.serviceAreas.map((area, index) => (
+              <div key={index} className="p-4 bg-white rounded-lg shadow-sm">
+                <div className="font-semibold text-primary">{area}</div>
+              </div>
+            ))}
+          </div>
+          <p className="text-gray-600 mt-8">
+            Don&apos;t see your area? Contact us - we may still be able to serve you!
+          </p>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-20 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-16">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-6">
+            {siteContent.faq.map((item, index) => (
+              <details key={index} className="group border border-gray-200 rounded-lg">
+                <summary className="flex justify-between items-center cursor-pointer p-6 font-semibold text-gray-800 hover:bg-gray-50">
+                  {item.question}
+                  <span className="text-primary text-xl group-open:rotate-45 transition-transform">+</span>
+                </summary>
+                <div className="px-6 pb-6 text-gray-600">
+                  {item.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-primary to-secondary text-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Ready to Schedule Your Goat Hoof Trimming?
+          </h2>
+          <p className="text-xl mb-8 text-orange-100">
+            Get a free quote in under 2 minutes. Professional service guaranteed.
+          </p>
+          <button
+            onClick={() => {
+              trackCTAClick('Get Your Free Quote Now', 'CTA Section');
+              setShowForm(true);
+            }}
+            className="bg-white text-primary font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-100 transition-colors shadow-lg"
+          >
+            Get Your Free Quote Now
+          </button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-12 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-2xl font-bold text-primary mb-4">Hoof Heroes</h3>
+              <p className="text-gray-300">Professional goat hoof trimming services for healthier, happier goats.</p>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Quick Links</h4>
+              <div className="space-y-2">
+                <a href="/privacy" className="block text-gray-300 hover:text-white">Privacy Policy</a>
+                <a href="/terms" className="block text-gray-300 hover:text-white">Terms of Service</a>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Contact</h4>
+              <p className="text-gray-300">Licensed & Insured Professional Service</p>
+              <p className="text-gray-300">Serving All 50 US States Nationwide</p>
+            </div>
+          </div>
+          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Hoof Heroes. All rights reserved.</p>
+          </div>
+        </div>
       </footer>
+
+      </main>
+      {/* Multi-Step Form Modal */}
+      {showForm && (
+        <MultiStepForm onClose={() => setShowForm(false)} />
+      )}
+      
+      {/* Cookie Consent Banner */}
+      <CookieConsent />
+      
+      {/* Analytics Debug Panel (Development Only) */}
+      <AnalyticsDebugger />
     </div>
   );
 }
