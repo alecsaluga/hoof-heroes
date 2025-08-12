@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { trackCTAClick } from '@/lib/analytics';
+// Analytics import removed to fix Google tag detection
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -82,7 +82,6 @@ export default function Header() {
             </Link>
             <button 
               onClick={() => {
-                trackCTAClick('Get Quote', 'Header Navigation');
                 const form = document.querySelector('#get-quote-btn') as HTMLButtonElement;
                 if (form) form.click();
               }}
@@ -96,7 +95,6 @@ export default function Header() {
           <div className="md:hidden">
             <button 
               onClick={() => {
-                trackCTAClick('Get Quote', 'Header Navigation');
                 const form = document.querySelector('#get-quote-btn') as HTMLButtonElement;
                 if (form) form.click();
               }}

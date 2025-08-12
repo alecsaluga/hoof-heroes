@@ -4,16 +4,14 @@ import { useState } from 'react';
 import MultiStepForm from '@/components/MultiStepForm';
 import Header from '@/components/Header';
 import CookieConsent from '@/components/CookieConsent';
-import AnalyticsDebugger from '@/components/AnalyticsDebugger';
+// AnalyticsDebugger removed to fix Google tag detection
 import { siteContent } from '@/lib/content';
-import { trackCTAClick } from '@/lib/analytics';
-import { useAnalytics } from '@/hooks/useAnalytics';
+// Analytics imports removed to fix Google tag detection
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
   
-  // Initialize comprehensive analytics tracking
-  useAnalytics();
+  // Analytics initialization removed to fix Google tag detection
 
   return (
     <div className="min-h-screen bg-background">
@@ -32,7 +30,6 @@ export default function Home() {
           <button
             id="get-quote-btn"
             onClick={() => {
-              trackCTAClick('Get Free Quote', 'Hero Section');
               setShowForm(true);
             }}
             className="btn-primary text-lg px-8 py-4 mb-8"
@@ -120,7 +117,6 @@ export default function Home() {
           </p>
           <button
             onClick={() => {
-              trackCTAClick('Get Your Free Quote Now', 'CTA Section');
               setShowForm(true);
             }}
             className="bg-white text-primary font-bold py-4 px-8 rounded-lg text-lg hover:bg-gray-100 transition-colors shadow-lg"
@@ -166,8 +162,7 @@ export default function Home() {
       {/* Cookie Consent Banner */}
       <CookieConsent />
       
-      {/* Analytics Debug Panel (Development Only) */}
-      <AnalyticsDebugger />
+      {/* Analytics Debug Panel removed to fix Google tag detection */}
     </div>
   );
 }

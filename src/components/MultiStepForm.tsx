@@ -6,14 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { siteContent, formOptions } from '@/lib/content';
 import ProgressBar from './ProgressBar';
-import { 
-  trackFormStep, 
-  trackFormSubmission, 
-  trackFormNavigation, 
-  trackFormAbandonment,
-  trackError,
-  trackCTAClick 
-} from '@/lib/analytics';
+// Analytics imports removed to fix Google tag detection
 
 const formSchema = z.object({
   goatType: z.string().min(1, 'Please select a goat type'),
@@ -44,7 +37,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
 
   // Track form initialization
   useEffect(() => {
-    trackFormStep(1, 'Form Opened', { timestamp: formStartTime });
+    // Form tracking removed to fix Google tag detection
   }, [formStartTime]);
 
   // Track form abandonment when component unmounts
@@ -52,7 +45,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
     return () => {
       if (currentStep < totalSteps) {
         const timeSpent = Date.now() - formStartTime;
-        trackFormAbandonment(currentStep, Math.round(timeSpent / 1000));
+        // Form abandonment tracking removed
       }
     };
   }, [currentStep, totalSteps, formStartTime]);
@@ -83,25 +76,17 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
 
     const isValid = await trigger(fieldsToValidate);
     if (isValid && currentStep < totalSteps) {
-      // Track successful step completion
-      const stepName = getStepName(currentStep);
-      const currentFormData = watchedValues;
-      trackFormStep(currentStep, stepName, currentFormData);
-      
-      // Track navigation to next step
-      trackFormNavigation('next', currentStep, currentStep + 1);
+      // Step completion tracking removed to fix Google tag detection
       
       setCurrentStep(currentStep + 1);
     } else if (!isValid) {
-      // Track validation errors
-      trackError(`Validation failed on step ${currentStep}`, 'form_validation');
+      // Validation error tracking removed
     }
   };
 
   const prevStep = () => {
     if (currentStep > 1) {
-      // Track backward navigation
-      trackFormNavigation('previous', currentStep, currentStep - 1);
+      // Navigation tracking removed
       setCurrentStep(currentStep - 1);
     }
   };
@@ -128,8 +113,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
       source: 'website' as const
     };
 
-    // Track final step completion before submission
-    trackFormStep(6, 'Form Completed - Final Step', formData);
+    // Final step tracking removed to fix Google tag detection
 
     try {
       if (process.env.NODE_ENV === 'development') {
@@ -156,16 +140,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
       }
 
       if (response.ok) {
-        // Track successful form submission conversion
-        trackFormSubmission(formData);
-        
-        // Track total form completion time
-        const totalTime = Date.now() - formStartTime;
-        trackFormStep(7, 'Form Successfully Submitted', {
-          ...formData,
-          total_completion_time: Math.round(totalTime / 1000),
-          submission_success: true
-        });
+        // Form submission tracking removed to fix Google tag detection
         
         if (process.env.NODE_ENV === 'development') {
           console.log('✅ Form submission successful! Redirecting to thank you page...');
@@ -182,14 +157,14 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
           });
         }
         
-        trackError(`Form submission failed with status: ${response.status} - ${errorText}`, 'form_submission');
+        // Error tracking removed
         alert(`Submission failed: ${response.status} ${response.statusText}. Please try again or contact support.`);
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('💥 Form submission error:', error);
       }
-      trackError(`Form submission error: ${error}`, 'form_submission');
+      // Error tracking removed
       alert(`Network error: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your connection and try again.`);
     } finally {
       setIsSubmitting(false);
@@ -381,7 +356,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
             <h1 className="text-xl font-bold text-primary">Get Your Free Quote</h1>
             <button
               onClick={() => {
-                trackCTAClick('Close Form', `Step ${currentStep}`);
+                // CTA tracking removed
                 onClose();
               }}
               className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
@@ -401,7 +376,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
                 <button
                   type="button"
                   onClick={() => {
-                    trackCTAClick('Previous Step', `Step ${currentStep}`);
+                    // Previous step tracking removed
                     prevStep();
                   }}
                   className="btn-secondary"
@@ -415,7 +390,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
                   <button
                     type="button"
                     onClick={() => {
-                      trackCTAClick('Next Step', `Step ${currentStep}`);
+                      // Next step tracking removed
                       nextStep();
                     }}
                     className="btn-primary"
@@ -429,7 +404,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
                     className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={async () => {
                       if (!isSubmitting) {
-                        trackCTAClick('Get My Quote - Submit Form', 'Step 6');
+                        // Submit tracking removed
                         const formData = watchedValues;
                         await onSubmit(formData as FormInputs);
                       }

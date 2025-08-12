@@ -236,57 +236,16 @@ export default function RootLayout({
           }}
         />
 
-        {/* Google Analytics 4 - Enhanced Setup */}
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                
-                // Enhanced configuration for conversion tracking
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
-                  page_title: document.title,
-                  page_location: window.location.href,
-                  custom_map: {
-                    'custom_parameter_step': 'step_number'
-                  },
-                  // Enable enhanced measurement features
-                  enhanced_measurement: true,
-                  // Enable conversion linker for cross-domain tracking
-                  conversion_linker: true,
-                  // Optimize for conversions
-                  optimize_id: 'OPT-${process.env.NEXT_PUBLIC_GA_ID}',
-                  // Enable demographic and interest reports
-                  allow_google_signals: true,
-                  // Enable advertising features
-                  allow_ad_personalization_signals: true
-                });
-
-                // Set up custom events for enhanced measurement
-                gtag('event', 'page_view', {
-                  page_title: document.title,
-                  page_location: window.location.href,
-                  business_type: 'goat_hoof_trimming_service',
-                  service_area: 'nationwide_usa'
-                });
-
-                // Track site performance
-                window.addEventListener('load', function() {
-                  gtag('event', 'page_load_time', {
-                    event_category: 'Performance',
-                    value: Math.round(performance.now())
-                  });
-                });
-              `}
-            </Script>
-          </>
-        )}
+        {/* Google tag (gtag.js) */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-51J1PWD7M7" />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-51J1PWD7M7');
+          `}
+        </Script>
       </head>
       <body className="antialiased">
         {children}
