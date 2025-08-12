@@ -14,9 +14,9 @@ import LocationPageTemplate from '@/components/LocationPageTemplate';
 import citiesData from '../../../../data/cities.json';
 
 interface LocationPageProps {
-  params: {
+  params: Promise<{
     slug: string[];
-  };
+  }>;
 }
 
 // Generate static params for all city pages
@@ -31,7 +31,8 @@ export async function generateStaticParams() {
 // Generate metadata for each location page
 export async function generateMetadata({ params }: LocationPageProps): Promise<Metadata> {
   const cities = citiesData as LocationData[];
-  const citySlug = params.slug[0];
+  const resolvedParams = await params;
+  const citySlug = resolvedParams.slug[0];
   
   // Extract city and state from slug
   const slugParts = citySlug.replace('goat-hoof-trimming-', '').split('-');
@@ -74,9 +75,10 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   };
 }
 
-export default function LocationPage({ params }: LocationPageProps) {
+export default async function LocationPage({ params }: LocationPageProps) {
   const cities = citiesData as LocationData[];
-  const citySlug = params.slug[0];
+  const resolvedParams = await params;
+  const citySlug = resolvedParams.slug[0];
   
   // Extract city and state from slug
   const slugParts = citySlug.replace('goat-hoof-trimming-', '').split('-');
