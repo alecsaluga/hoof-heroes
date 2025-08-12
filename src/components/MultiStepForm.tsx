@@ -44,7 +44,6 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     return () => {
       if (currentStep < totalSteps) {
-        const timeSpent = Date.now() - formStartTime;
         // Form abandonment tracking removed
       }
     };
@@ -91,18 +90,7 @@ export default function MultiStepForm({ onClose }: { onClose: () => void }) {
     }
   };
 
-  // Helper function to get step names for tracking
-  const getStepName = (step: number): string => {
-    const stepNames = {
-      1: 'Goat Type Selection',
-      2: 'Goat Count Selection', 
-      3: 'Urgency Level Selection',
-      4: 'ZIP Code Entry',
-      5: 'Contact Information',
-      6: 'Additional Details'
-    };
-    return stepNames[step as keyof typeof stepNames] || `Step ${step}`;
-  };
+  // Helper function removed (was used for tracking)
 
   const onSubmit = async (data: FormInputs) => {
     setIsSubmitting(true);

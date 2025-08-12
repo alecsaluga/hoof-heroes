@@ -18,3 +18,20 @@ export interface FormStep {
   isCompleted: boolean;
   isActive: boolean;
 }
+
+export interface LocationData {
+  city: string;
+  state: string;
+  stateCode: string;
+  slug: string;
+  stateSlug: string;
+  population: number;
+  ruralArea: boolean;
+  avgPrice: string;
+  climate: string;
+  zipCodes: string[];
+  nearbyFarms: number;
+  farmingContext: string;
+  regionalNotes: string;
+  majorNearbyCities: string[];
+}
